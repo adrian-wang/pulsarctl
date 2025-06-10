@@ -73,6 +73,8 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
 )
 
-replace github.com/apache/pulsar-client-go/oauth2 => github.com/apache/pulsar-client-go/oauth2 v0.0.0-20211006154457-742f1b107403
+replace (
+    github.com/apache/pulsar-client-go => github.com/adrian-wang/pulsar-client-go v0.0.0-20250610115650-811b57b4459d
+    golang.org/x/sys => golang.org/x/sys v0.0.0-20220422013727-9388b58f7150
+)
 
-replace golang.org/x/sys => golang.org/x/sys v0.0.0-20220422013727-9388b58f7150
