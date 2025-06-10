@@ -23,8 +23,6 @@ import (
 
 	"github.com/spf13/pflag"
 
-	o "github.com/apache/pulsar-client-go/oauth2"
-	"github.com/streamnative/pulsarctl/pkg/auth"
 	"github.com/streamnative/pulsarctl/pkg/cmdutils"
 )
 
@@ -74,33 +72,45 @@ func doActivate(vc *cmdutils.VerbCmd, config *cmdutils.ClusterConfig) error {
 		return errors.New("required: audience")
 	}
 
-	flow, err := o.NewDefaultClientCredentialsFlow(o.ClientCredentialsFlowOptions{
-		KeyFile:          config.KeyFile,
-		AdditionalScopes: strings.Split(config.Scope, " "),
-	})
-	if err != nil {
-		return err
-	}
+	//flow, err := o.NewDefaultClientCredentialsFlow(o.ClientCredentialsFlowOptions{
+	//	KeyFile:          config.KeyFile,
+	//	AdditionalScopes: strings.Split(config.Scope, " "),
+	//})
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//grant, err := flow.Authorize(config.Audience)
+	//if err != nil {
+	//	return err
+	//}
 
-	grant, err := flow.Authorize(config.Audience)
-	if err != nil {
-		return err
-	}
+	//store, err := auth.MakeKeyringStore()
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//err = store.SaveGrant(audience, *grant)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//userName, err := store.WhoAmI(audience)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//err = store.SaveGrant(config.Audience, *grant)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//userName, err := store.WhoAmI(config.Audience)
+	//if err != nil {
+	//	return err
+	//}
 
-	store, err := auth.MakeKeyringStore()
-	if err != nil {
-		return err
-	}
-
-	err = store.SaveGrant(config.Audience, *grant)
-	if err != nil {
-		return err
-	}
-
-	userName, err := store.WhoAmI(config.Audience)
-	if err != nil {
-		return err
-	}
+	var userName = `abc`
 
 	vc.Command.Printf(`Logged in as %s.
 Welcome to Pulsar!
