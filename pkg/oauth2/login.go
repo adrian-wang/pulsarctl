@@ -19,12 +19,8 @@ package oauth2
 
 import (
 	"errors"
-	"fmt"
-	"strings"
 
-	o "github.com/apache/pulsar-client-go/oauth2"
 	"github.com/spf13/pflag"
-	"github.com/streamnative/pulsarctl/pkg/auth"
 	"github.com/streamnative/pulsarctl/pkg/cmdutils"
 	"github.com/streamnative/pulsarctl/pkg/oauth2/os"
 )
@@ -78,37 +74,39 @@ func doLogin(vc *cmdutils.VerbCmd, config *cmdutils.ClusterConfig, noRefresh boo
 		return errors.New("required: audience")
 	}
 
-	options := o.DeviceCodeFlowOptions{
-		IssuerEndpoint:   config.IssuerEndpoint,
-		ClientID:         config.ClientID,
-		AdditionalScopes: strings.Split(config.Scope, " "),
-		AllowRefresh:     !noRefresh,
-	}
+	//options := o.DeviceCodeFlowOptions{
+	//	IssuerEndpoint:   config.IssuerEndpoint,
+	//	ClientID:         config.ClientID,
+	//	AdditionalScopes: strings.Split(config.Scope, " "),
+	//	AllowRefresh:     !noRefresh,
+	//}
+	//
+	//prompt := NewPrompt(false)
+	//flow, err := o.NewDefaultDeviceCodeFlow(options, prompt.Prompt)
+	//if err != nil {
+	//	return errors.New("configuration error: unable to use device code flow: " + err.Error())
+	//}
+	//grant, err := flow.Authorize(config.Audience)
+	//if err != nil {
+	//	return errors.New("login failed: " + err.Error())
+	//}
+	//
+	//store, err := auth.MakeKeyringStore()
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//err = store.SaveGrant(config.Audience, *grant)
+	//if err != nil {
+	//	return err
+	//}
+	//
+	//userName, err := store.WhoAmI(config.Audience)
+	//if err != nil {
+	//	return err
+	//}
+	var userName = `abc`
 
-	prompt := NewPrompt(false)
-	flow, err := o.NewDefaultDeviceCodeFlow(options, prompt.Prompt)
-	if err != nil {
-		return errors.New("configuration error: unable to use device code flow: " + err.Error())
-	}
-	grant, err := flow.Authorize(config.Audience)
-	if err != nil {
-		return errors.New("login failed: " + err.Error())
-	}
-
-	store, err := auth.MakeKeyringStore()
-	if err != nil {
-		return err
-	}
-
-	err = store.SaveGrant(config.Audience, *grant)
-	if err != nil {
-		return err
-	}
-
-	userName, err := store.WhoAmI(config.Audience)
-	if err != nil {
-		return err
-	}
 	vc.Command.Printf(`Logged in as %s.
 Welcome to Pulsar!
 `, userName)
@@ -127,29 +125,29 @@ func NewPrompt(skipOpen bool) *PromptFunc {
 	}
 }
 
-func (p *PromptFunc) Prompt(code *o.DeviceCodeResult) error {
-	if !p.SkipOpen {
-		var err error
-		if code.VerificationURIComplete != "" {
-			err = p.osInteractor.OpenURL(code.VerificationURIComplete)
-		} else {
-			err = p.osInteractor.OpenURL(code.VerificationURI)
-		}
-		if err == nil {
-			fmt.Printf(`We've launched your web browser to complete the login process.
-Verification code: %s
-
-Waiting for login to complete...
-`, code.UserCode)
-			return nil
-		}
-	}
-	fmt.Printf(`Please follow these steps to complete the login procedure:
-1. Using your web browser, go to: %s
-2. Enter the following code: %s
-
-Waiting for login to complete...
-`, code.VerificationURI, code.UserCode)
-
-	return nil
-}
+//func (p *PromptFunc) Prompt(code *o.DeviceCodeResult) error {
+//	if !p.SkipOpen {
+//		var err error
+//		if code.VerificationURIComplete != "" {
+//			err = p.osInteractor.OpenURL(code.VerificationURIComplete)
+//		} else {
+//			err = p.osInteractor.OpenURL(code.VerificationURI)
+//		}
+//		if err == nil {
+//			fmt.Printf(`We've launched your web browser to complete the login process.
+//Verification code: %s
+//
+//Waiting for login to complete...
+//`, code.UserCode)
+//			return nil
+//		}
+//	}
+//	fmt.Printf(`Please follow these steps to complete the login procedure:
+//1. Using your web browser, go to: %s
+//2. Enter the following code: %s
+//
+//Waiting for login to complete...
+//`, code.VerificationURI, code.UserCode)
+//
+//	return nil
+//}

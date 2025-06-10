@@ -19,10 +19,8 @@ package oauth2
 
 import (
 	"errors"
-	"strings"
 
 	"github.com/spf13/pflag"
-
 	"github.com/streamnative/pulsarctl/pkg/cmdutils"
 )
 
